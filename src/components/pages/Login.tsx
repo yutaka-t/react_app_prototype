@@ -2,8 +2,10 @@ import { Divider, Flex, Heading, Box, Input, Stack } from "@chakra-ui/react";
 import { VFC, memo, ChangeEvent, useState } from "react";
 
 import { PrimaryButton } from "../../components/atoms/button/PrimaryButton";
+import { useAuth } from "../../hooks/useAuth";
 
 export const Login: VFC = memo(() => {
+  const { login, loading } = useAuth();
   const [userId, setUserId] = useState("");
 
   /**
@@ -12,6 +14,10 @@ export const Login: VFC = memo(() => {
    */
   const onChangeUserId = (e: ChangeEvent<HTMLInputElement>) =>
     setUserId(e.target.value);
+
+  const onClickLogin = () => {
+    login(userId);
+  };
 
   return (
     <Flex align="cneter" justify="center" height="100vh">
@@ -28,7 +34,13 @@ export const Login: VFC = memo(() => {
           />
 
           {/* コンポーネントにchildrenを渡している */}
-          <PrimaryButton>ログイン</PrimaryButton>
+          <PrimaryButton
+            disabled={userId === ""}
+            isLoading={loading}
+            onClick={onClickLogin}
+          >
+            ログイン
+          </PrimaryButton>
         </Stack>
       </Box>
     </Flex>
