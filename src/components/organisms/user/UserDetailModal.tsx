@@ -1,4 +1,4 @@
-import { VFC, memo, useEffect, useCallback } from "react";
+import { VFC, memo } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -34,9 +34,9 @@ export const UserDetailModal: VFC<Props> = memo((props: Props) => {
           <Stack spacing={4}>
             <FormControl>
               <FormLabel>名前</FormLabel>
-              <Input value="田上" isReadOnly />
+              <Input value="テストデータ" isReadOnly />
               <FormLabel>フルネーム</FormLabel>
-              <Input value="田上" isReadOnly />
+              <Input value="テストデー" isReadOnly />
               <FormLabel>MAIL</FormLabel>
               <Input value="田上" isReadOnly />
               <FormLabel>TEL</FormLabel>

@@ -5,25 +5,17 @@ import {
   Wrap,
   Spinner,
   Center,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  useDisclosure,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  Stack,
-  FormControl,
-  FormLabel,
-  Input
+  useDisclosure
 } from "@chakra-ui/react";
 import { UserCard } from "../organisms/user/UserCard";
 import { useAllUsers } from "../../hooks/useAllUsers";
 import { UserDetailModal } from "../organisms/user/UserDetailModal";
+import { useSelectUser } from "../../hooks/useSelectUser";
 
 export const UserManagement: VFC = memo(() => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { getUsers, users, loading } = useAllUsers();
+  const { onSelectUser, selectedUser } = useSelectUser();
 
   const sampleImageUrl = "https://source.unsplash.com/random";
 
@@ -31,7 +23,11 @@ export const UserManagement: VFC = memo(() => {
     getUsers();
   }, []);
 
-  const onClikUser = useCallback(() => onOpen(), []);
+  const onClikUser = useCallback((id: number) => {
+    onSelectUser({ id: id, users: users });
+    onOpen();
+  }, []);
+
   return (
     <>
       {loading ? (
@@ -43,6 +39,7 @@ export const UserManagement: VFC = memo(() => {
           {users.map((user) => (
             <WrapItem key={user.id} mx="auto">
               <UserCard
+                id={user.id}
                 imageUrl={sampleImageUrl}
                 userName={user.name}
                 fullName={user.username}
