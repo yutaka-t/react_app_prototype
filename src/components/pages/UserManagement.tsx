@@ -23,10 +23,16 @@ export const UserManagement: VFC = memo(() => {
     getUsers();
   }, []);
 
-  const onClikUser = useCallback((id: number) => {
-    onSelectUser({ id: id, users: users });
-    onOpen();
-  }, []);
+  // 指定ユーザを全体から見つけ出してモーダルへ渡す
+  const onClikUser = useCallback(
+    (id: number) => {
+      // key と変数が同じ名前の場合省略可能
+      // onSelectUser({ id: id, users: users, onOpen: onOpen });
+      onSelectUser({ id, users, onOpen });
+    },
+    // users に変更がある場合に中身を実行。これがないと初期値で動作してモーダルに何も渡らない
+    [users]
+  );
 
   return (
     <>
@@ -49,7 +55,7 @@ export const UserManagement: VFC = memo(() => {
           ))}
         </Wrap>
       )}
-      <UserDetailModal isOpen={isOpen} onClose={onClose} />
+      <UserDetailModal user={selectedUser} isOpen={isOpen} onClose={onClose} />
     </>
   );
 });
