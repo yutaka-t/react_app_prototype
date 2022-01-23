@@ -8,18 +8,24 @@ import {
 
 import { User } from "../types/api/user";
 
-type LoginUserContextType = {
-  loginUser: User | null;
-  setLoginUser: Dispatch<SetStateAction<User | null>>;
+/**
+ * No.10 のユーザを疑似的に管理者とする。
+ * Userに　新しい型(isAdmin)を追加
+ */
+type LoginUser = User & { isAdmin: boolean };
+
+export type LoginUserContextType = {
+  loginUser: LoginUser | null;
+  setLoginUser: Dispatch<SetStateAction<LoginUser | null>>;
 };
 
-const LoginUsercontext = createContext<LoginUserContextType>(
+export const LoginUsercontext = createContext<LoginUserContextType>(
   {} as LoginUserContextType
 );
 
 export const LoginUserProvider = (props: { children: ReactNode }) => {
   const { children } = props;
-  const [loginUser, setLoginUser] = useState<User | null>(null);
+  const [loginUser, setLoginUser] = useState<LoginUser | null>(null);
   return (
     /**
      * 今回は、loginUser, setLoginUser　を一つのprovider でまとめているが、
